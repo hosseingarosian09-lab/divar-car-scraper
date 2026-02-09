@@ -64,25 +64,23 @@ for link in links :
 
     # finding gearbox and fule type , and price 
     info = soup.find_all(class_="kt-base-row kt-base-row--large kt-unexpandable-row")
-    try :
-        for item in info:
-            try:
-                if item.find(class_="kt-base-row__title kt-unexpandable-row__title").text == "گیربکس":
-                    gearbox = item.find(class_="kt-unexpandable-row__value").text
-            except:
-                gearbox = None
-            try:
-                if item.find(class_="kt-base-row__title kt-unexpandable-row__title").text == "نوع سوخت":
-                    fule = item.find(class_="kt-unexpandable-row__value").text
-            except:
-                fule = None
-            try:
-                if item.find(class_="kt-base-row__title kt-unexpandable-row__title").text == "قیمت پایه":
-                    price = item.find(class_="kt-unexpandable-row__value").text
-            except:
-                price = None
-    except Exception as e :
-        print(e)  
+    for item in info:
+        try:
+            if item.find(class_="kt-base-row__title kt-unexpandable-row__title").text == "گیربکس":
+                gearbox = item.find(class_="kt-unexpandable-row__value").text
+        except:
+            gearbox = None
+        try:
+            if item.find(class_="kt-base-row__title kt-unexpandable-row__title").text == "نوع سوخت":
+                fule = item.find(class_="kt-unexpandable-row__value").text
+        except:
+            fule = None
+        try:
+            if item.find(class_="kt-base-row__title kt-unexpandable-row__title").text == "قیمت پایه":
+                price = item.find(class_="kt-unexpandable-row__value").text
+        except:
+            price = None
+
 
     # finding body condition , and discription and pictuer url
     info = soup.find_all(class_="kt-base-row kt-base-row--large kt-base-row--has-icon kt-score-row")
@@ -93,12 +91,14 @@ for link in links :
         except:
             body_condition = None
 
-    try:
-        discription = (soup.find_all(class_="kt-description-row__text kt-description-row__text--primary")[-1].text).replace('/' , ' ')
-        pictuer = soup.find(class_="kt-image-block__image").get('src')
-    except:
-        discription = discription if discription else None
-        pictuer = pictuer if pictuer else None
+    # pictuer and discription
+    desc_elems = soup.find_all(class_="kt-description-row__text kt-description-row__text--primary")
+    if desc_elems:
+        discription = desc_elems[-1].text.strip().replace('/', ' ')
+
+    pic_elem = soup.find(class_="kt-image-block__image")
+    if pic_elem:
+        pictuer = pic_elem.get('src')
 
     print("titel_brand : " + str(titel_brand),
             "\nkilometer : " + str(kilometer),
