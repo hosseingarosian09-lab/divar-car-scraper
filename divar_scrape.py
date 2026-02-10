@@ -1,5 +1,6 @@
 import requests 
 from bs4 import BeautifulSoup
+from random_headers import get_random_headers
 
 #finding all links in the page
 request = requests.get("https://divar.ir/s/iran/auto")
@@ -16,7 +17,10 @@ for card in cards:
 
 #finding each element in each page 
 for link in links :
-    request = requests.get(link,timeout=10)
+    # generating random headers
+    headers = get_random_headers(str(link))
+
+    request = requests.get(link,timeout=10, headers=headers)
     if request.status_code != 200:
             print(f"skiped for error: \n{request.status_code}")
             continue
@@ -111,4 +115,5 @@ for link in links :
             "\ndiscription : " + str(discription),
             "\npictuer : " + str(pictuer) ,
             "\nlink : " + str(link),
+            headers,
             "\n\n\n")
