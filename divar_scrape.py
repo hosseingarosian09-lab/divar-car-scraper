@@ -1,31 +1,8 @@
-import requests 
 from bs4 import BeautifulSoup
-from random_headers import get_random_headers
 
-#finding all links in the page
-request = requests.get("https://divar.ir/s/iran/auto")
+def extract_car_info(html):
 
-print(request.status_code)
-
-soup = BeautifulSoup(request.text , "html.parser")
-cards = soup.find_all('a', class_='kt-post-card__action')
-
-links = []
-for card in cards:
-    href = card.get('href')
-    links.append('https://divar.ir' + href)
-
-#finding each element in each page 
-for link in links :
-    # generating random headers
-    headers = get_random_headers(str(link))
-
-    request = requests.get(link,timeout=10, headers=headers)
-    if request.status_code != 200:
-            print(f"skiped for error: \n{request.status_code}")
-            continue
-    
-    soup = BeautifulSoup(request.text , "html.parser")
+    soup = BeautifulSoup(html.text, "html.parser")
 
     # initialize all per-link vars to avoid UnboundLocalError
     titel_brand = None
@@ -103,17 +80,5 @@ for link in links :
     pic_elem = soup.find(class_="kt-image-block__image")
     if pic_elem:
         pictuer = pic_elem.get('src')
-
-    print("titel_brand : " + str(titel_brand),
-            "\nkilometer : " + str(kilometer),
-            "\nyear : " + str(year),
-            "\ncolor : " + str(color),
-            "\ngearbox : " + str(gearbox),
-            "\nfule : " + str(fule),
-            "\nprice : " + str(price),
-            "\nbody_condition : " + str(body_condition),
-            "\ndiscription : " + str(discription),
-            "\npictuer : " + str(pictuer) ,
-            "\nlink : " + str(link),
-            headers,
-            "\n\n\n")
+    
+    return [titel_brand, kilometer, year, color, gearbox, fule, price, body_condition, discription, pictuer]
