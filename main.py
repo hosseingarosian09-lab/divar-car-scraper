@@ -2,9 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 from random_headers import get_random_headers
 from divar_scrape import extract_car_info
+import random
 
 #finding all links in the page
-request = requests.get("https://divar.ir/s/iran/auto",timeout=10, headers=get_random_headers("https://divar.ir/s/iran/auto"))
+request = requests.get("https://divar.ir/s/iran/auto",timeout=random.randint(10,30), headers=get_random_headers("https://divar.ir/s/iran/auto"))
 
 print(request.status_code)
 
@@ -23,7 +24,7 @@ for link in links :
     if headers == None:
         headers = get_random_headers(str(link))
 
-    request = requests.get(link,timeout=20, headers = headers)
+    request = requests.get(link,timeout=random.randint(10,30), headers = headers)
     info_list = extract_car_info(request)
     
     if info_list[0] != None:
