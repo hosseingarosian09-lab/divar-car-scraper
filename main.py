@@ -1,6 +1,6 @@
 import requests 
 from bs4 import BeautifulSoup
-from random_headers import get_random_headers
+from random_headers import get_random_headers, headers_len
 from divar_scrape import extract_car_info
 import random
 
@@ -16,12 +16,15 @@ links = []
 for card in cards:
     href = card.get('href')
     links.append('https://divar.ir' + href)
-    
+
+false_headers = []
 headers = None
 for link in links :
 
-    #if haders is None than its not working and we need to get new headers for each request
-    if headers == None:
+    # check if headers is in false_headers list and if the list is too long, clear it
+    if len(false_headers) > headers_len():
+        false_headers.clear()
+    while headers in false_headers:
         headers = get_random_headers(str(link))
 
     request = requests.get(link,timeout=random.randint(10,30), headers = headers)
@@ -29,7 +32,11 @@ for link in links :
     
     if info_list[0] != None:
         #send jason
-        print(
+        pass
+    else:
+        false_headers.append(headers)
+
+    print(
         "titel_brand: ", info_list[0], "\n",
         "kilometer: ", info_list[1], "\n",
         "year: ", info_list[2], "\n",
@@ -42,7 +49,7 @@ for link in links :
         "pictuer: ", info_list[9], "\n",
         "-----------------------------"
         )
-    else:
-        headers = None
+
+
     
     
