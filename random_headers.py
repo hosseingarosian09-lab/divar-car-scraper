@@ -100,3 +100,6 @@ def get_random_headers(link):
         template["Accept-Language"] = "en-US,en;q=0.9,fa-IR;q=0.8,fa;q=0.7"
     template["Referer"] = link
     return template
+
+def headers_len():
+    return len(headers)
