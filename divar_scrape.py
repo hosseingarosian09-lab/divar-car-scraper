@@ -14,7 +14,7 @@ def extract_car_info(html):
     discription = None
     pictuer = None
 
-    # check if the request was successful
+    # check if the request was successful (test)
     if html.status_code == 200:
         soup = BeautifulSoup(html.text, "html.parser")
 
