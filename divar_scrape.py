@@ -94,6 +94,7 @@ def extract_car_info(html):
         "price": price,
         "body_condition": body_condition,
         "discription": discription,
-        "pictuer": pictuer
+        "pictuer": pictuer,
+        "link": html.url
         }
         return json_data

@@ -39,28 +39,17 @@ for link in links :
 
     human_like_delay()
     request = requests.get(link,timeout=(5, 15), headers = headers)
-    info_list = extract_car_info(request)
-    
-    if info_list[0] != None:
-        #send jason
+
+    #json data
+    data = extract_car_info(request)
+    if data["title_brand"] != None:
+        # send data to database or save it to a file
         pass
     else:
         false_headers.append(headers)
 
-    print(
-        "titel_brand: ", info_list[0], "\n",
-        "kilometer: ", info_list[1], "\n",
-        "year: ", info_list[2], "\n",
-        "color: ", info_list[3], "\n",
-        "gearbox: ", info_list[4], "\n",
-        "fule: ", info_list[5], "\n",
-        "price: ", info_list[6], "\n",
-        "body_condition: ", info_list[7], "\n",
-        "discription: ", info_list[8], "\n",
-        "pictuer: ", info_list[9], "\n",
-        "-----------------------------"
-        )
-
+    print(data)
+    
 
     
     
