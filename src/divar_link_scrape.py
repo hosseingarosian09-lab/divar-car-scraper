@@ -1,4 +1,5 @@
 import shutil
+import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
@@ -6,7 +7,7 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.edge.service import Service as EdgeService
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
-import time
+from selenium.webdriver.common.by import By
 
 
 # wrote these functions with the help of AI, it checks if any of common browsers are installed
@@ -90,14 +91,19 @@ def scrape_links_divar(url):
 
     links = []
     try:
-        elements = driver.find_elements_by_class_name('kt-post-card__action')
+        elements = driver.find_elements(By.CLASS_NAME, 'kt-post-card__action')
         for element in elements:
-            print(element)
             href = element.get_attribute('href')
-            print(href)
             links.append(href)
     except:
         pass
+    driver.quit()
     return links
 
-print(scrape_links_divar("https://divar.ir/s/iran/auto"))
+s_links = scrape_links_divar("https://divar.ir/s/iran/auto")
+
+for i in s_links:
+    print(i)
+    print()
+
+print(len(s_links))
