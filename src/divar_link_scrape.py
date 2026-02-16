@@ -50,13 +50,14 @@ edge_mirrors = [
 
 # args for driver options 
 chrome_args = [
-    "--headless=new",                        # Modern headless mode
+    # "--headless=new",                        # Modern headless mode
     "--window-size=1920,1080",               
     "--no-sandbox",                          # Often required in containers/Linux
     "--disable-dev-shm-usage",               # Memory stability in restricted envs
     "--disable-gpu",                         
     "--disable-software-rasterizer",
     "--disable-blink-features=AutomationControlled",  # Reduce basic bot detection
+    "--force-device-scale-factor=0.4",                                                   # this one zoomes out 
     f"ususer-agent={get_random_User_Agent()}",
 ]
 firefox_args = [
@@ -65,17 +66,18 @@ firefox_args = [
     "--height=1080",          
 ]
 edge_args = [
-    "--headless=new",                        
+    # "--headless=new",                        
     "--window-size=1920,1080",
     "--no-sandbox",
     "--disable-dev-shm-usage",
     "--disable-gpu",
     "--disable-software-rasterizer",
     "--disable-blink-features=AutomationControlled",
+    "--force-device-scale-factor=0.4",
     f"user-agent={get_random_User_Agent()}",
 ]
 
-
+driver = None
 def setup_webdriver():
     if is_chrome_installed():
         #add options :
@@ -129,14 +131,15 @@ def setup_webdriver():
     return driver
 
 def scrape_links_divar(url):
+    
     driver = setup_webdriver()
     driver.get(url)
-
-    driver.execute_script("document.body.style.zoom='30%'")
     time.sleep(2)
-    driver.fullscreen_window()
+    driver.fullscreen_window()  
+    time.sleep(2)
+    driver.execute_script("document.body.style.zoom = '30%';")
     time.sleep(10)
-
+        
     links = []
     try:
         elements = driver.find_elements(By.CLASS_NAME, 'kt-post-card__action')
@@ -147,11 +150,3 @@ def scrape_links_divar(url):
         pass
     driver.quit()
     return links
-
-s_links = scrape_links_divar("https://divar.ir/s/iran/auto")
-
-for i in s_links:
-    print(i)
-    print()
-
-print(len(s_links))
