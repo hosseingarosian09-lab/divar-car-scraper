@@ -99,10 +99,22 @@ headers = [
 },
 ]
 
+accept_languages = [
+    "fa-IR,fa;q=0.9,en-US;q=0.8,en;q=0.7",
+    "en-US,en;q=0.9,fa-IR;q=0.8,fa;q=0.7",
+    "fa;q=0.9,en;q=0.8,fa-IR;q=0.7",
+    "en-GB,en;q=0.9,fa;q=0.8",
+    "fa-IR;q=1.0,fa;q=0.9,en-US;q=0.8",
+]
+
+sec_ch_ua_platforms = [
+    '"Windows"', '"macOS"', '"Linux"', '"Android"', '"iOS"'
+]
+
 def get_random_headers(link):
     template = random.choice(headers).copy()
-    if random.random() < 0.15:
-        template["Accept-Language"] = "en-US,en;q=0.9,fa-IR;q=0.8,fa;q=0.7"
+    template["Accept-Language"] = random.choice(accept_languages)
+    template["sec-ch-ua-platform"] = random.choice(sec_ch_ua_platforms)
     template["Referer"] = link
     return template
 
