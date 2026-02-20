@@ -58,7 +58,7 @@ chrome_args = [
     "--disable-software-rasterizer",
     "--disable-blink-features=AutomationControlled",  # Reduce basic bot detection
     "--force-device-scale-factor=0.4",                                                   # this one zoomes out 
-    f"ususer-agent={get_random_User_Agent()}",
+    f"user-agent={get_random_User_Agent()}",
 ]
 firefox_args = [
     "--headless",             
