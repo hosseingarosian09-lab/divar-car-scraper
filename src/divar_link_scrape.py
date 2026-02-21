@@ -1,5 +1,5 @@
 import shutil
-import time
+import time , random
 
 from random_headers import get_random_User_Agent
 
@@ -14,6 +14,8 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.edge.options import Options as EdgeOptions
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 # wrote these functions with the help of AI, it checks if any of common browsers are installed
@@ -134,22 +136,26 @@ def scrape_links_divar(url):
     
     driver = setup_webdriver()
     driver.get(url)
-    time.sleep(2)
-    driver.fullscreen_window()  
-    time.sleep(2)
-    driver.execute_script("document.body.style.zoom = '30%';")
-    time.sleep(10)
-        
-    links = []
-    try:
-        elements = driver.find_elements(By.CLASS_NAME, 'kt-post-card__action')
-        for element in elements:
-            href = element.get_attribute('href')
-            links.append(href)
-    except:
-        pass
+
+    # Wait until at least some cards are loaded
+    wait = WebDriverWait(driver, 15)
+    wait.until(EC.presence_of_element_located((By.CLASS_NAME, "kt-post-card__action")))
+
+    links_set = set() 
+    for _ in range(20) :
+        driver.execute_script("window.scrollBy(0, 1600);")
+        time.sleep(random.uniform(1.2, 2.8))
+
+        try:
+            elements = driver.find_elements(By.CLASS_NAME, 'kt-post-card__action')
+            for element in elements:
+                href = element.get_attribute('href')
+                links_set.add(href)
+        except Exception as e :
+            print(e)
+
     driver.quit()
-    return links
+    return list(links_set)
 
 if __name__ == "__main__":
     test_links = scrape_links_divar("https://divar.ir/s/iran/auto")
