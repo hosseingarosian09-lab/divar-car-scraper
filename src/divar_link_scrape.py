@@ -1,7 +1,7 @@
 import shutil
 import time , random
 
-from random_headers import get_random_User_Agent
+from ACP.src.random_headers import get_random_User_Agent
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -16,17 +16,7 @@ from selenium.webdriver.edge.options import Options as EdgeOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
-
-def is_chrome_installed() -> bool:
-    names = ["google-chrome", "chrome", "chromium", "chromium-browser"]
-    return any(shutil.which(name) for name in names)
-def is_firefox_installed() -> bool:
-    names = ["firefox", "firefox-developer-edition", "firefox-nightly"]
-    return any(shutil.which(name) for name in names)
-def is_edge_installed() -> bool:
-    names = ["microsoft-edge", "edge", "microsoft-edge-dev", "microsoft-edge-beta", "microsoft-edge-canary"]
-    return any(shutil.which(name) for name in names)
+from selenium.common.exceptions import TimeoutException, WebDriverException
 
 chrome_mirrors = [
     "https://registry.npmmirror.com/-/binary/chromedriver", 
@@ -44,12 +34,22 @@ edge_mirrors = [
     "https://mirrors.huaweicloud.com/edgedriver",
 ]
 
-# args for driver options as a function
+# wrote these functions with the help of AI, it checks if any of common browsers are installed
+def is_chrome_installed() -> bool:
+    names = ["google-chrome", "chrome", "chromium", "chromium-browser"]
+    return any(shutil.which(name) for name in names)
+def is_firefox_installed() -> bool:
+    names = ["firefox", "firefox-developer-edition", "firefox-nightly"]
+    return any(shutil.which(name) for name in names)
+def is_edge_installed() -> bool:
+    names = ["microsoft-edge", "edge", "microsoft-edge-dev", "microsoft-edge-beta", "microsoft-edge-canary"]
+    return any(shutil.which(name) for name in names)
+
 def get_driver_options(browser: str):
     user_agent = get_random_User_Agent()
     if browser == "chrome":
         options = webdriver.ChromeOptions()
-        options.add_argument("--headless=new")           # Modern headless (less detectable)
+        # options.add_argument("--headless=new")           # Modern headless (less detectable)
         options.add_argument("--window-size=1920,1080")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
@@ -78,8 +78,8 @@ def get_driver_options(browser: str):
         options.add_argument("--disable-blink-features=AutomationControlled")
         options.add_argument(f"--user-agent={user_agent}")
         return options
+    
 
-# set up the WebDriver according to the browserr name sent to it , with fallback to mirror URL if installation fails
 driver = None
 def setup_webdriver(driver=str):
     if driver == "chrome" :
@@ -92,30 +92,33 @@ def setup_webdriver(driver=str):
 
                 if driver != None :
                     break
+        except:
+            pass
 
     elif driver == "firefox":
-        try:
-            driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=get_driver_options("firefox"))
-        except Exception:
-            for mirror_url in firefox_mirrors:
+        for mirror_url in firefox_mirrors:
+            try:
+                driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=get_driver_options("firefox"))
+                break
+            except Exception:
                 service = FirefoxService(GeckoDriverManager(url=mirror_url).install())
                 driver = webdriver.Firefox(service=service, options=get_driver_options("firefox"))
+                break
+            except Exception:
+                continue
 
-                if driver != None :
-                    break
-    
     elif driver == "edge":
-        try:
-            driver = webdriver.Edge(service=EdgeService(EdgeChromiumDriverManager().install()), options=get_driver_options("edge"))
-        except Exception:
-            for mirror_url in edge_mirrors:
+        for mirror_url in edge_mirrors:
+            try:
+                driver = webdriver.Edge(service=EdgeService(EdgeChromiumDriverManager().install()), options=get_driver_options("edge"))
+                break
+            except Exception:
                 service = EdgeService(EdgeChromiumDriverManager(url=mirror_url).install())
                 driver = webdriver.Edge(service=service, options=get_driver_options("edge"))
-
-                if driver != None :
-                    break
+                break
+            except Exception:
+                continue
     return driver
-
 
 def scrape_links_divar(url):
     
@@ -134,7 +137,7 @@ def scrape_links_divar(url):
     wait.until(EC.presence_of_element_located((By.CLASS_NAME, "kt-post-card__action")))
 
     links_set = set() 
-    for _ in range(20) :
+    for _ in range(40) :
         driver.execute_script("window.scrollBy(0, 1600);")
         time.sleep(random.uniform(1.2, 2.8))
 
@@ -145,8 +148,19 @@ def scrape_links_divar(url):
                 links_set.add(href)
         except Exception as e :
             print(e)
+        
+        try:
+            button = WebDriverWait(driver, 3).until(
+            EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[1]/main/div[2]/div[2]/div/button"))
+            )
+            button.click()
+        except:
+            pass
+
+        if len(links_set) == 800 :
+            break
+
     driver.quit()
-    
     return list(links_set)
 
 if __name__ == "__main__":
