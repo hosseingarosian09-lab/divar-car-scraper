@@ -121,11 +121,10 @@ def get_random_headers(link):
 def get_headers_len():
     return len(headers)
 
-
-User_Agents = []
-for header in headers:
-    User_Agents.append(header["User-Agent"])
-
 def get_random_User_Agent():
+    User_Agents = []
+    for header in headers:
+        User_Agents.append(header["User-Agent"])
+        
     User_Agent = random.choice(User_Agents)
     return User_Agent
