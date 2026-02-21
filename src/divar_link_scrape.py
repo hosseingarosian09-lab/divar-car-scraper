@@ -1,6 +1,6 @@
-import shutil
 import time ,random ,threading
 from tqdm import tqdm
+from browser_instaled_check import *
 
 from random_headers import get_random_User_Agent
 
@@ -33,17 +33,6 @@ edge_mirrors = [
     "https://npmmirror.com/mirrors/edgedriver",
     "https://mirrors.huaweicloud.com/edgedriver",
 ]
-
-# wrote these functions with the help of AI, it checks if any of common browsers are installed
-def is_chrome_installed() -> bool:
-    names = ["google-chrome", "chrome", "chromium", "chromium-browser"]
-    return any(shutil.which(name) for name in names)
-def is_firefox_installed() -> bool:
-    names = ["firefox", "firefox-developer-edition", "firefox-nightly"]
-    return any(shutil.which(name) for name in names)
-def is_edge_installed() -> bool:
-    names = ["microsoft-edge", "edge", "microsoft-edge-dev", "microsoft-edge-beta", "microsoft-edge-canary"]
-    return any(shutil.which(name) for name in names)
 
 def get_driver_options(browser: str):
     user_agent = get_random_User_Agent()
