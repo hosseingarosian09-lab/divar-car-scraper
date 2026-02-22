@@ -3,6 +3,7 @@ from random_headers import get_random_headers, get_headers_len
 from divar_scrape import extract_car_info
 from divar_link_scrape import scrape_links_divar
 import random , time
+from storage_CSV_and_JSON import *
 
 # a function to sleep for a random amount of time like a human
 def human_like_delay():
@@ -16,6 +17,7 @@ def human_like_delay():
 
 # i should add progres bar
 links = scrape_links_divar("https://divar.ir/s/iran/auto")
+filename = get_filename(folder="data", format="csv") # i should change default value of folder and format later 
 
 false_headers = []
 headers = None
@@ -34,7 +36,7 @@ for link in links :
     if data != None :
         if data["title_brand"] != None:
             # send data to database or save it to a file
-            pass
+            store_data_to_csv(items=data, filename=filename)
         else:
             false_headers.append(headers)
     print(data)
