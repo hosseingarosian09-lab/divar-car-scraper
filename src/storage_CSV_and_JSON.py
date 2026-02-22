@@ -1,4 +1,5 @@
 import csv
+import json
 import datetime
 import os
 
@@ -14,7 +15,7 @@ def get_filename(folder=".", format="csv"):
 
 def store_data_to_csv(items, filename=None, folder="."):
     """Append one or many items to CSV."""
-    
+
     fieldnames = [
         'title_brand', 'kilometer', 'year', 'color', 'gearbox',
         'fule', 'price', 'body_condition', 'discription', 'pictuer', 'link'
@@ -38,3 +39,20 @@ def store_data_to_csv(items, filename=None, folder="."):
             writer.writeheader()
         
         writer.writerows(items)
+
+def store_data_to_json(items, filename=None, folder="."):
+    """Append one or many items to JSON (one object per line)."""
+    if filename is None:
+        filename = get_filename(folder=folder, format="json")
+
+    # Make sure the folder exists
+    os.makedirs(folder, exist_ok=True)
+
+    # If single item → make it a list
+    if not isinstance(items, (list, tuple)):
+        items = [items]
+
+    with open(filename, 'a', encoding='utf-8') as f:
+        for item in items:
+            json.dump(item, f, ensure_ascii=False)
+            f.write('\n')
