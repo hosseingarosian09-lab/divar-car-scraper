@@ -98,3 +98,10 @@ def extract_car_info(html):
         "link": html.url
         }
         return json_data
+    
+if __name__ == "__main__":
+    import requests
+    url = input("Enter the URL of the car from divar: ")
+    response = requests.get(url)
+    car_info = extract_car_info(response)
+    print(car_info)
