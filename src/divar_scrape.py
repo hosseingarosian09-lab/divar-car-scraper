@@ -90,7 +90,7 @@ def extract_car_info(html):
         "year": year,
         "color": color,
         "gearbox": gearbox,
-        "fule": fule,
+        "fuel": fule,
         "price": price,
         "body_condition": body_condition,
         "discription": discription,

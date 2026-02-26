@@ -21,7 +21,7 @@ from selenium.webdriver.support import expected_conditions as EC
 # progress bar function
 def background_timer(duration, stop_event):
     """Runs a progress bar in background until duration or stop_event is set."""
-    with tqdm(total=duration, desc="scraping links(it takes about 3 minutes)", unit="s") as pbar:
+    with tqdm(total=duration, desc="(it takes about 3 minutes)", unit="s") as pbar:
         for i in range(duration):
             if stop_event.is_set():      
                 pbar.update(duration - i)    # Fill the bar to 100%
@@ -122,12 +122,7 @@ def setup_webdriver(driver=str):
 
 def scrape_links_divar(url):
     
-    # start the progress bar in a separate thread
     script_start = time.time()
-    stop_event = threading.Event()
-
-    progress_thread = threading.Thread(target=background_timer, args=(300, stop_event))
-    progress_thread.start()
 
     if is_chrome_installed() :
         browser = "chrome"
@@ -137,7 +132,11 @@ def scrape_links_divar(url):
         browser = "edge"
     else : browser = "chrome"
     
-    driver = setup_webdriver(browser)
+    try:
+        driver = setup_webdriver(browser)
+    except Exception as e :
+        print(f"error while instaling web-driver:\n{e}") 
+
     driver.get(url)
 
     # Wait until at least some cards are loaded
@@ -170,7 +169,7 @@ def scrape_links_divar(url):
 
     driver.quit()
 
-    progress_thread.join()
+
     script_end = time.time()
     execution_time = script_end - script_start
     print(f"Script completed in {execution_time:.2f} seconds")

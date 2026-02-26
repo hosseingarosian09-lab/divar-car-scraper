@@ -18,7 +18,7 @@ def store_data_to_csv(items, filename=None):
 
     fieldnames = [
         'title_brand', 'kilometer', 'year', 'color', 'gearbox',
-        'fule', 'price', 'body_condition', 'discription', 'pictuer', 'link'
+        'fuel', 'price', 'body_condition', 'discription', 'pictuer', 'link'
     ]
 
     if filename is None:
