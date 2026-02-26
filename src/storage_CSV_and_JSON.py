@@ -3,17 +3,17 @@ import json
 import datetime
 import os
 
-def get_filename(folder=".", format="csv"):
-    
+def get_filename(format="csv"):
     current_date = datetime.datetime.now().strftime("%Y-%m-%d")
     current_time = datetime.datetime.now().strftime("%H-%M-%S")
     filename = f"ads_{current_date}_({current_time}).{format}"
-    
-    # Build full path
-    full_path = os.path.join(folder, filename)
-    return full_path
 
-def store_data_to_csv(items, filename=None, folder="."):
+    data_dir = os.path.join(os.path.dirname(__file__), 'data')
+    os.makedirs(data_dir, exist_ok=True)
+
+    return os.path.join(data_dir, filename)
+
+def store_data_to_csv(items, filename=None):
     """Append one or many items to CSV."""
 
     fieldnames = [
@@ -22,10 +22,13 @@ def store_data_to_csv(items, filename=None, folder="."):
     ]
 
     if filename is None:
-        filename = get_filename(folder=folder, format="csv")
-
-    # Make sure the folder exists
-    os.makedirs(folder, exist_ok=True)
+        filename = get_filename(format="csv")
+    else:
+        # If a relative filename is provided, place it into the package's data dir.
+        if not os.path.isabs(filename):
+            data_dir = os.path.join(os.path.dirname(__file__), 'data')
+            os.makedirs(data_dir, exist_ok=True)
+            filename = os.path.join(data_dir, filename)
 
     if not isinstance(items, (list, tuple)):
         items = [items]
@@ -40,13 +43,16 @@ def store_data_to_csv(items, filename=None, folder="."):
         
         writer.writerows(items)
 
-def store_data_to_json(items, filename=None, folder="."):
+def store_data_to_json(items, filename=None):
     """Append one or many items to JSON (one object per line)."""
     if filename is None:
-        filename = get_filename(folder=folder, format="json")
+        filename = get_filename(format="json")
 
-    # Make sure the folder exists
-    os.makedirs(folder, exist_ok=True)
+    else:
+        if not os.path.isabs(filename):
+            data_dir = os.path.join(os.path.dirname(__file__), 'data')
+            os.makedirs(data_dir, exist_ok=True)
+            filename = os.path.join(data_dir, filename)
 
     # If single item → make it a list
     if not isinstance(items, (list, tuple)):
