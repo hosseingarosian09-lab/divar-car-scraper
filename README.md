@@ -2,7 +2,7 @@
 
 Hi there! 👋
 
-This is my **learning project** — a simple Python script that scrapes car advertisements from [divar.ir](https://divar.ir/s/iran/auto).
+This is my **learning project** — a Python script that scrapes car advertisements from [divar.ir](https://divar.ir/s/iran/auto).
 
 I built it to practice web scraping with Selenium, BeautifulSoup, and requests.  
 Nothing fancy, just something fun to learn from!
@@ -15,7 +15,7 @@ Nothing fancy, just something fun to learn from!
   - Gearbox, fuel type, price
   - Body condition & description
   - Main photo URL + direct link
-- Saves everything to a nice CSV or JSON file (with timestamp)
+- Saves everything to a CSV or JSON file (with timestamp)
 
 ### 🛠️ How to run it 
 
@@ -84,7 +84,6 @@ divar_scrape/
 - This is **just for learning and personal use**
 - Please don’t run it too often (Divar may block your IP)
 - Respect their robots.txt and terms of service 
-- Random delays and fake headers are added to act more like a human
 
 by Hossein Garosian  
 For learning purposes only — 2026
