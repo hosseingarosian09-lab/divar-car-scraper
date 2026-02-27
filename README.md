@@ -17,11 +17,24 @@ Nothing fancy, just something fun to learn from!
   - Main photo URL + direct link
 - Saves everything to a nice CSV or JSON file (with timestamp)
 
-### 🛠️ How to run it (Super Easy!)
+### 🛠️ How to run it 
 
+first :
+1. Open terminal/command prompt **inside** the `divar_scrape` folder
+2. Activate the virtual environment:
+   ```bash
+   # Windows
+   venv\Scripts\activate
+
+   # macOS / Linux
+   source venv/bin/activate
+   ```
+3. Install requirements (only once):
+   ```bash
+   pip install -r requirements.txt
+   ```
 **Windows users:**
 - Just double-click **`scrape.bat`**  
-  (It will activate the virtual environment and start the scraper automatically)
 
 **macOS / Linux users:**
 ```bash
