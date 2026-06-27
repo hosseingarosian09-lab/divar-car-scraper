@@ -18,15 +18,13 @@ def human_like_delay():
 
 print("HI \nthis script will scrape car information from divar.ir \nevery time it will scrape about 200 to 900 car infos !!\n\n")
 time.sleep(2)
-print("how would you like to save your data ? type(CSV or JSON):")
 
 while True:
-    format = input()
+    format = input("Please enter either CSV or JSON.\n")
     if str(format) in ["CSV","csv","JSON","json"] :
         break
     else:
         print("wrong input!!")
-        print("please enter csv or json")
 
 stop_event = threading.Event()
 progress_thread = threading.Thread(target=background_timer, args=(300, stop_event))
@@ -44,7 +42,7 @@ progress_thread.join()
 
 
 try :
-    filename = get_filename(format="csv")
+    filename = get_filename(format=save_format)
 except Exception as e : 
     print("faild to make a path ")
     print(f"ERROR:\n{e}")
@@ -73,7 +71,10 @@ for link in links :
         if data["title_brand"] != None:
             # send data to database or save it to a file
             try :
-                store_data_to_csv(items=data, filename=filename)
+                if save_format == "csv" :
+                    store_data_to_csv(items=data, filename=filename)
+                else :
+                    store_data_to_json(items=data, filename=filename)
             except Exception as e :
                 print(f"faild to save sata due to :\n{e}\n")        
             print(data)
