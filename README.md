@@ -1,89 +1,161 @@
 # 🚗 Divar Car Scraper
+![Python](https://img.shields.io/badge/Python-3.13-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Status](https://img.shields.io/badge/Status-Learning_Project-orange)
 
-Hi there! 👋
+A Python web scraper that collects car advertisements from **Divar** and exports the extracted data to **CSV** or **JSON**.
 
-This is my **learning project** — a Python script that scrapes car advertisements from [divar.ir](https://divar.ir/s/iran/auto).
+This project was built as a hands-on learning experience to practice web scraping, browser automation, and data processing using Python.
 
-I built it to practice web scraping with Selenium, BeautifulSoup, and requests.  
-Nothing fancy, just something fun to learn from!
+---
 
-### ✨ What it does
-- Collects 200–900 car listing links from Divar
-- Visits each link and extracts:
-  - Title & brand
-  - Year, kilometer, color
-  - Gearbox, fuel type, price
-  - Body condition & description
-  - Main photo URL + direct link
-- Saves everything to a CSV or JSON file (with timestamp)
+## ✨ Features
 
-### 🛠️ How to run it 
+- Scrapes approximately **200–900** car advertisement links
+- Extracts detailed vehicle information, including:
+  - Title & Brand
+  - Year
+  - Mileage
+  - Color
+  - Gearbox
+  - Fuel Type
+  - Price
+  - Body Condition
+  - Description
+  - Main Image URL
+  - Advertisement Link
+- Saves data as **CSV** or **JSON**
+- Uses random **User-Agent** rotation
+- Includes randomized delays between requests
+- Cross-platform support (Windows, Linux, macOS)
 
-first :
-1. Open terminal/command prompt **inside** the `divar_scrape` folder
-2. Activate the virtual environment:
-   ```bash
-   # Windows
-   venv\Scripts\activate
+---
 
-   # macOS / Linux
-   source venv/bin/activate
-   ```
-3. Install requirements (only once):
-   ```bash
-   pip install -r requirements.txt
-   ```
-**Windows users:**
-- Just double-click **`scrape.bat`**  
+## 🧰 Technologies
 
-**macOS / Linux users:**
+- Python
+- Selenium
+- BeautifulSoup4
+- Requests
+- WebDriver Manager
+- JSON
+- CSV
+
+---
+
+## 🚀 Quick Start
+
+### 1. Clone the repository
+
 ```bash
-chmod +x run.sh    # do this only the first time
+git clone https://github.com/hosseingarosian09-lab/divar-car-scraper.git
+cd divar-car-scraper
+```
+
+### 2. Create and activate a virtual environment
+
+**Windows**
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+**Linux / macOS**
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Run the scraper
+
+**Windows**
+
+```bash
+scrape.bat
+```
+
+**Linux / macOS**
+
+```bash
+chmod +x run.sh
 ./run.sh
 ```
 
-**Manual way (if you prefer):**
-1. Open terminal/command prompt **inside** the `divar_scrape` folder
-2. Activate the virtual environment:
-   ```bash
-   # Windows
-   venv\Scripts\activate
+Or run it manually:
 
-   # macOS / Linux
-   source venv/bin/activate
-   ```
-3. Install requirements (only once):
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Run the scraper:
-   ```bash
-   python src/main.py
-   ```
-
-After running, just choose **CSV** or **JSON** when it asks.  
-Your files will be saved in the `src/data/` folder.
-
-### 📁 Project structure
+```bash
+python src/main.py
 ```
-divar_scrape/
+
+After launching the program, choose either **CSV** or **JSON** when prompted.
+
+The generated files will be saved inside:
+
+```
+src/data/
+```
+
+---
+
+## 📁 Project Structure
+
+```
+divar-car-scraper/
+│
 ├── src/
 │   ├── main.py
 │   ├── divar_link_scrape.py
 │   ├── divar_scrape.py
+│   ├── storage_CSV_and_JSON.py
+│   ├── random_headers.py
 │   └── ...
-├── data/                    ← all scraped files go here
-├── scrape.bat               ← easy run for Windows
-├── run.sh                   ← easy run for macOS/Linux
+│
+├── src/data/
+│
+├── scrape.bat
+├── run.sh
 ├── requirements.txt
 ├── README.md
 └── LICENSE
 ```
 
-### ⚠️ Important notes
-- This is **just for learning and personal use**
-- Please don’t run it too often (Divar may block your IP)
-- Respect their robots.txt and terms of service 
+---
 
-by Hossein Garosian  
-For learning purposes only — 2026
+## ⚠️ Disclaimer
+
+This project was created **for educational purposes only**.
+
+Please use it responsibly and respect Divar's Terms of Service. Avoid sending excessive requests that could negatively impact their service.
+
+---
+
+## 📚 What I Learned
+
+Building this project helped me practice:
+
+- Web Scraping
+- Selenium Automation
+- BeautifulSoup
+- HTTP Requests
+- Working with JSON & CSV
+- Git & GitHub
+- Project Organization
+- Writing cleaner, modular Python code
+
+---
+
+## 📄 License
+
+This project is released under the **MIT License**.
+
+---
+
+Made with ❤️ by **Hossein Garosian**
