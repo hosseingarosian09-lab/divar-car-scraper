@@ -126,9 +126,9 @@ def scrape_links_divar(url):
 
     if is_chrome_installed() :
         browser = "chrome"
-    elif is_firefox_installed :
+    elif is_firefox_installed() :
         browser = "firefox"
-    elif is_edge_installed :
+    elif is_edge_installed() :
         browser = "edge"
     else : browser = "chrome"
     
