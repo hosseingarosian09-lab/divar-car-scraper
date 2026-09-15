@@ -1,5 +1,5 @@
 # 🚗 Divar Car Scraper
-![Python](https://img.shields.io/badge/Python-3.13-blue)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Status](https://img.shields.io/badge/Status-Learning_Project-orange)
 
@@ -11,23 +11,12 @@ This project was built as a hands-on learning experience to practice web scrapin
 
 ## ✨ Features
 
-- Scrapes approximately **200–900** car advertisement links
-- Extracts detailed vehicle information, including:
-  - Title & Brand
-  - Year
-  - Mileage
-  - Color
-  - Gearbox
-  - Fuel Type
-  - Price
-  - Body Condition
-  - Description
-  - Main Image URL
-  - Advertisement Link
-- Saves data as **CSV** or **JSON**
-- Uses random **User-Agent** rotation
-- Includes randomized delays between requests
-- Cross-platform support (Windows, Linux, macOS)
+- Collects car advertisement links from Divar
+- Extracts vehicle information such as title, year, mileage, color, gearbox, fuel type, price, body condition, description, image URL, and advertisement link
+- Saves data as valid **CSV** or **JSON**
+- Uses randomized **User-Agent** headers and delays between requests
+- Supports Chrome, Firefox, and Edge
+- Simple setup and run scripts for Windows and Linux
 
 ---
 
@@ -38,94 +27,103 @@ This project was built as a hands-on learning experience to practice web scrapin
 - BeautifulSoup4
 - Requests
 - WebDriver Manager
-- JSON
-- CSV
+- JSON / CSV
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Windows Quick Start
 
-### 1. Clone the repository
+### 1. Download or clone the repository
 
 ```bash
 git clone https://github.com/hosseingarosian09-lab/divar-car-scraper.git
 cd divar-car-scraper
 ```
 
-### 2. Create and activate a virtual environment
+### 2. Run setup
 
-**Windows**
+Double-click:
 
-```bash
-python -m venv venv
-venv\Scripts\activate
+```text
+setup.bat
 ```
 
-**Linux / macOS**
+The setup script will:
 
-```bash
-python3 -m venv venv
-source venv/bin/activate
+- Find Python 3.10+ if it is already installed
+- Try to install Python 3.13 with `winget` if Python is missing
+- Create a local `.venv`
+- Install the packages in `requirements.txt`
+- Ask you to choose **CSV** or **JSON** output
+- Save that choice locally in `config.json`
+
+> You also need at least one supported browser installed: **Chrome**, **Firefox**, or **Edge**.
+
+### 3. Run the scraper
+
+Double-click:
+
+```text
+run.bat
 ```
 
-### 3. Install dependencies
+Generated files are saved in:
 
-```bash
-pip install -r requirements.txt
+```text
+src/data/
 ```
 
-### 4. Run the scraper
+To change CSV/JSON later, run `setup.bat` again.
 
-**Windows**
+---
+
+## 🐧 Linux Quick Start
+
+### 1. Make the scripts executable
 
 ```bash
-scrape.bat
+chmod +x setup.sh run.sh
 ```
 
-**Linux / macOS**
+### 2. Run setup
 
 ```bash
-chmod +x run.sh
+./setup.sh
+```
+
+The Linux setup will check for Python 3.10+, try to install Python when possible using the system package manager, create `.venv`, install requirements, and ask for CSV/JSON output.
+
+### 3. Run the scraper
+
+```bash
 ./run.sh
 ```
 
-Or run it manually:
-
-```bash
-python src/main.py
-```
-
-After launching the program, choose either **CSV** or **JSON** when prompted.
-
-The generated files will be saved inside:
-
-```
-src/data/
-```
+You also need Chrome, Chromium, Firefox, or Edge installed for Selenium.
 
 ---
 
 ## 📁 Project Structure
 
-```
+```text
 divar-car-scraper/
-│
 ├── src/
 │   ├── main.py
 │   ├── divar_link_scrape.py
 │   ├── divar_scrape.py
 │   ├── storage_CSV_and_JSON.py
 │   ├── random_headers.py
-│   └── ...
-│
-├── src/data/
-│
-├── scrape.bat
+│   └── browser_instaled_check.py
+├── setup.bat
+├── run.bat
+├── setup.sh
 ├── run.sh
 ├── requirements.txt
 ├── README.md
 └── LICENSE
 ```
+
+`config.json`, `.venv/`, and generated files in `src/data/` are local files and are ignored by Git.
 
 ---
 

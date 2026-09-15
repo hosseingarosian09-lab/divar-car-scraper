@@ -1,31 +1,39 @@
 #!/usr/bin/env bash
-# run.sh
-# Quick way to start the Divar car scraper
-# Usage: ./run.sh
 
-set -euo pipefail 
+cd "$(dirname "$0")" || exit 1
 
-echo "======================================"
-echo "  Divar Car Scraper  (personal project)"
-echo "======================================"
-echo ""
+echo
+echo "==============================================="
+echo "        Divar Car Scraper - Linux Run"
+echo "==============================================="
+echo
 
-# Optional: if you later create a virtual environment, uncomment this:
+if [ ! -f "config.json" ]; then
+    echo "Setup has not been completed yet."
+    echo "Run ./setup.sh first."
+    exit 1
+fi
 
-# if [ -d "venv" ]; then
-#     echo "Activating virtual environment..."
-#     source venv/bin/activate
-# fi
+if [ ! -x ".venv/bin/python" ]; then
+    echo "Project dependencies are not set up yet."
+    echo "Run ./setup.sh first."
+    exit 1
+fi
 
-echo "Changing to source directory..."
-cd src || { echo "Error: src/ folder not found"; exit 1; }
+if [ ! -f "src/main.py" ]; then
+    echo "ERROR: src/main.py was not found."
+    echo "Make sure run.sh is in the project root."
+    exit 1
+fi
 
-echo "Running main.py ..."
-echo ""
+.venv/bin/python src/main.py
+exit_code=$?
 
-python3 main.py
+echo
+if [ "$exit_code" -eq 0 ]; then
+    echo "Scraper finished."
+else
+    echo "Scraper stopped with an error. Exit code: $exit_code"
+fi
 
-echo ""
-echo "======================================"
-echo "Finished."
-echo "======================================"
+exit "$exit_code"
